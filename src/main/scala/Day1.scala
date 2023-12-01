@@ -4,8 +4,6 @@ import scala.io.Source
 
 object Day1:
 
-  val regex = "\\d|one|two|three|four|five|six|seven|eight|nine".r
-
   def part1(input: String): Int =
     input.split("\n")
       .map(line => line.filter(_.isDigit))
