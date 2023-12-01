@@ -23,15 +23,15 @@ object Day1:
   def parse(line: String): String =
     line.foldLeft(("", "")) {
       case ((current, state), next) if (next.isDigit) => (current + next, "")
-      case ((current, state), next) if ((state + next).endsWith("one")) => (current + "1", "e")
-      case ((current, state), next) if ((state + next).endsWith("two")) => (current + "2", "o")
-      case ((current, state), next) if ((state + next).endsWith("three")) => (current + "3", "e")
-      case ((current, state), next) if ((state + next).endsWith("four")) => (current + "4", "r")
-      case ((current, state), next) if ((state + next).endsWith("five")) => (current + "5", "e")
-      case ((current, state), next) if ((state + next).endsWith("six")) => (current + "6", "x")
-      case ((current, state), next) if ((state + next).endsWith("seven")) => (current + "7", "n")
-      case ((current, state), next) if ((state + next).endsWith("eight")) => (current + "8", "t")
-      case ((current, state), next) if ((state + next).endsWith("nine")) => (current + "9", "e")
+      case ((current, state), next) if ((state + next).endsWith("one")) => (current + "1", state + next)
+      case ((current, state), next) if ((state + next).endsWith("two")) => (current + "2", state + next)
+      case ((current, state), next) if ((state + next).endsWith("three")) => (current + "3", state + next)
+      case ((current, state), next) if ((state + next).endsWith("four")) => (current + "4", state + next)
+      case ((current, state), next) if ((state + next).endsWith("five")) => (current + "5", state + next)
+      case ((current, state), next) if ((state + next).endsWith("six")) => (current + "6", state + next)
+      case ((current, state), next) if ((state + next).endsWith("seven")) => (current + "7", state + next)
+      case ((current, state), next) if ((state + next).endsWith("eight")) => (current + "8", state + next)
+      case ((current, state), next) if ((state + next).endsWith("nine")) => (current + "9", state + next)
       case ((current, state), next) => (current, state + next)
     }._1
 
