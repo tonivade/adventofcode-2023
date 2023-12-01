@@ -15,13 +15,13 @@ class Day1Suite extends munit.FunSuite:
                  |xtwone3four
                  |4nineeightseven2
                  |zoneight234
-                 |7pqrstsixteen"""
+                 |7pqrstsixteen""".stripMargin
 
   test("Day1 part1") {
     assertEquals(part1(input1), 142)
   }
 
   test("Day1 part2") {
-    assertEquals(part2(input2), 1)
+    assertEquals(part2(input2), 281)
   }
 
