@@ -12,13 +12,13 @@ object Day1:
 
   def part2(input: String): Int =
     input.split("\n")
-      .map(replaceAll)
+      .map(parse)
       .map(line => s"${line.head}${line.last}")
       .map(_.toInt)
       .sum
 
-  def replaceAll(line: String): String =
-    val (result, _) = line.foldLeft(("", "")) {
+  def parse(line: String): String =
+    line.foldLeft(("", "")) {
       case ((current, state), next) if (next.isDigit) => (current + next, "")
       case ((current, state), next) if ((state + next).endsWith("one")) => (current + "1", "")
       case ((current, state), next) if ((state + next).endsWith("two")) => (current + "2", "")
@@ -30,8 +30,7 @@ object Day1:
       case ((current, state), next) if ((state + next).endsWith("eight")) => (current + "8", "")
       case ((current, state), next) if ((state + next).endsWith("nine")) => (current + "9", "")
       case ((current, state), next) => (current, state + next)
-    }
-    result
+    }._1
 
 @main def main: Unit =
   val input = Source.fromFile("input/day1.txt").getLines().mkString("\n")
