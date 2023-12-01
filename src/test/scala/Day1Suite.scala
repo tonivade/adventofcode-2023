@@ -25,3 +25,8 @@ class Day1Suite extends munit.FunSuite:
     assertEquals(part2(input2), 281)
   }
 
+  test("Day2 part2 with overlaping") {
+    assertEquals(Day1.parse("eighthree"), "83")
+    assertEquals(Day1.parse("sevenine"), "79")
+  }
+
