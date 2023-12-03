@@ -9,6 +9,7 @@ enum Color {
 case class Subset(cubes: Map[Color, Int])
 case class Game(number: Int, subsets: List[Subset])
 
+// https://adventofcode.com/2023/day/2
 object Day2:
   def parse(line: String): Game =
     val (head, tail) = line.split(":") match {

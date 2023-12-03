@@ -11,6 +11,7 @@ package day${next_day}
 
 import scala.io.Source
 
+// https://adventofcode.com/${year}/day/${next_day}
 object Day${next_day}:
   def part1(input: String): Int = ???
   def part2(input: String): Int = ???

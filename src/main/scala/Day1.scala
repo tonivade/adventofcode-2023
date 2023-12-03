@@ -2,6 +2,7 @@ package day1
 
 import scala.io.Source
 
+// https://adventofcode.com/2023/day/1
 object Day1:
 
   def part1(input: String): Int =
