@@ -33,15 +33,14 @@ object Day3:
   def part1(input: String): Int = 
     val numbers = input.split("\n")
       .zipWithIndex.flatMap {
-        case (line, y) => line.zipWithIndex.filter(_._1.isDigit).map {
-          case (value, x) => Position(x, y) -> value
-        }.foldLeft(List.empty[PartNumber]) {
-          case (Nil, (p1, v1)) => List(PartNumber(List((p1, v1))))
-          case (head :: tail, (p1, v1)) if head.pos.last._1.x == p1.x - 1 => head.add(p1, v1) :: tail
-          case (head :: tail, (p1, v1)) if head.pos.last._1.x != p1.x - 1 => PartNumber(List((p1, v1))) :: head :: tail
+        case (line, y) => line.zipWithIndex.filter(_._1.isDigit).foldLeft(List.empty[PartNumber]) {
+          case (Nil, (value, x)) => List(PartNumber(List((Position(x, y), value))))
+          case (head :: tail, (value, x)) if head.pos.last._1.x == x - 1 => head.add(Position(x, y), value) :: tail
+          case (head :: tail, (value, x)) if head.pos.last._1.x != x - 1 => PartNumber(List((Position(x, y), value))) :: head :: tail
           case (status, _) => status
         }
       }
+
     val symbols = input.split("\n")
       .zipWithIndex.flatMap {
         case (line, y) => line.zipWithIndex.filterNot(_._1.isDigit).filterNot(_._1 == '.').map {
