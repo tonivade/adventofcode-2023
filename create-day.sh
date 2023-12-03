@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# import year and session_id from .env file
 source .env
 
 next_day="${1?required day}"
