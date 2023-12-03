@@ -31,6 +31,15 @@ object Day2:
       s.cubes.getOrElse(Color.Blue, 0) > blue ||
       s.cubes.getOrElse(Color.Green, 0) > green
       ).isEmpty
+  
+  def power(game: Game): Int =
+    game.subsets.foldLeft((0, 0, 0)) {
+      case ((r, g, b), subset) => (
+        Math.max(r, subset.cubes.getOrElse(Color.Red, 0)),
+        Math.max(g, subset.cubes.getOrElse(Color.Green, 0)),
+        Math.max(b, subset.cubes.getOrElse(Color.Blue, 0))
+        )
+    }.toList.product
 
   def part1(input: String): Int = 
     input.split("\n")
@@ -39,7 +48,11 @@ object Day2:
       .map(_.number)
       .sum
 
-  def part2(input: String): Int = ???
+  def part2(input: String): Int = 
+    input.split("\n")
+      .map(parse)
+      .map(power)
+      .sum
 
 @main def main: Unit =
   val input = Source.fromFile("input/day2.txt").getLines().mkString("\n")
