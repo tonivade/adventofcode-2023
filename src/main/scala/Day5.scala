@@ -2,6 +2,9 @@ package day5
 
 import scala.io.Source
 
+case class Seed(start: Long, size: Long):
+  def values: Iterable[Long] = Iterable.range(start, start + size)
+
 case class Range(source: Long, destination: Long, size: Long):
   val endSource = source + size
   def apply(i: Long): Option[Long] = 
@@ -49,7 +52,26 @@ object Day5:
 
     parsedSeeds.map(getAll).min
 
-  def part2(input: String): Int = ???
+  def part2(input: String): Long =
+    val lines = input.split("\n\n")
+
+    val (_, seeds) = lines(0).splitAt(lines(0).indexOf(":") + 1)
+    val parsedSeeds = seeds.trim().split("\\s").map(_.toLong).grouped(2).map {
+      case Array(start, size) => Seed(start, size)
+    }
+    val ranges = lines.drop(1).map(parse).map(Ranges.apply)
+
+    def get(i: Int)(j: Long) = ranges(i)(j)
+
+    val getAll = get(0) andThen 
+      get(1) andThen 
+      get(2) andThen 
+      get(3) andThen
+      get(4) andThen
+      get(5) andThen
+      get(6)
+
+    parsedSeeds.map(_.values).flatMap(_.map(getAll)).min
 
 @main def main: Unit =
   val input = Source.fromFile("input/day5.txt").getLines().mkString("\n")

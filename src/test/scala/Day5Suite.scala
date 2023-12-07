@@ -43,6 +43,6 @@ class Day5Suite extends munit.FunSuite:
   }
 
   test("Day5 part2") {
-    assertEquals(part2(input), 1)
+    assertEquals(part2(input), 46.toLong)
   }
 
