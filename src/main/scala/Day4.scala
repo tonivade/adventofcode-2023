@@ -9,10 +9,7 @@ case class Card(number: Int, winningNumbers: Set[Int], numbers: Set[Int]):
     case i => Math.pow(2, i - 1).toInt
   }
 
-  def scratchcards: Seq[Int] =
-    for {
-      i <- number + 1 to number + numbers.intersect(winningNumbers).size
-    } yield i
+  def scratchcards: Seq[Int] = (number + 1 to number + numbers.intersect(winningNumbers).size)
 
 // https://adventofcode.com/2023/day/4
 object Day4:
@@ -46,9 +43,7 @@ object Day4:
     val total = cards.foldLeft(initial) {
       case (state, card) => merge(state, card.scratchcards.map(_ -> state.getOrElse(card.number, 1)).toMap)
     }
-
     total.values.sum
-
 
 @main def main: Unit =
   val input = Source.fromFile("input/day4.txt").getLines().mkString("\n")
