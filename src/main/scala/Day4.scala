@@ -3,10 +3,16 @@ package day4
 import scala.io.Source
 
 case class Card(number: Int, winningNumbers: Set[Int], numbers: Set[Int]):
+
   def points: Int = numbers.intersect(winningNumbers).size match {
     case i if i == 0 => 0
     case i => Math.pow(2, i - 1).toInt
   }
+
+  def scratchcards: Seq[Int] =
+    for {
+      i <- number + 1 to number + numbers.intersect(winningNumbers).size
+    } yield i
 
 // https://adventofcode.com/2023/day/4
 object Day4:
@@ -29,7 +35,20 @@ object Day4:
       .map(_.points)
       .sum
 
-  def part2(input: String): Int = ???
+  def merge(a: Map[Int, Int], b: Map[Int, Int]): Map[Int, Int] =
+    val merged = a.toSeq ++ b.toSeq
+    val grouped = merged.groupBy(_._1)
+    grouped.mapValues(_.map(_._2).sum).toMap
+
+  def part2(input: String): Int =
+    val cards = input.split("\n").map(parse)
+    val initial = (1 to cards.size).map(_ -> 1).toMap
+    val total = cards.foldLeft(initial) {
+      case (state, card) => merge(state, card.scratchcards.map(_ -> state.getOrElse(card.number, 1)).toMap)
+    }
+
+    total.values.sum
+
 
 @main def main: Unit =
   val input = Source.fromFile("input/day4.txt").getLines().mkString("\n")
