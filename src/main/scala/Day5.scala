@@ -71,7 +71,7 @@ object Day5:
       get(5) andThen
       get(6)
 
-    parsedSeeds.map(_.values).flatMap(_.map(getAll)).min
+    parsedSeeds.flatMap(_.values).map(getAll).min
 
 @main def main: Unit =
   val input = Source.fromFile("input/day5.txt").getLines().mkString("\n")
