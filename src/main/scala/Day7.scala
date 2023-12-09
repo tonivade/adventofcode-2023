@@ -12,42 +12,43 @@ enum HandType:
   case FiveOfKind, FourOfKind, FullHouse, ThreeOfKind, TwoPair, OnePair, HighCard
 
 case class Hand1(c1: Card1, c2: Card1, c3: Card1, c4: Card1, c5: Card1):
+  import HandType._
   def toList: List[Card1] = List(c1, c2, c3, c4, c5)
   def handType: HandType = toList.groupBy(identity).mapValues(_.size).values.toList.sorted.reverse match {
-      case List(5) => HandType.FiveOfKind
-      case List(4, 1) => HandType.FourOfKind
-      case List(3, 2) => HandType.FullHouse
-      case List(3, 1, 1) => HandType.ThreeOfKind
-      case List(2, 2, 1) => HandType.TwoPair
-      case List(2, 1, 1, 1) => HandType.OnePair
-      case _ => HandType.HighCard
+      case List(5) => FiveOfKind
+      case List(4, 1) => FourOfKind
+      case List(3, 2) => FullHouse
+      case List(3, 1, 1) => ThreeOfKind
+      case List(2, 2, 1) => TwoPair
+      case List(2, 1, 1, 1) => OnePair
+      case _ => HighCard
     }
 
 case class Hand2(c1: Card2, c2: Card2, c3: Card2, c4: Card2, c5: Card2):
+  import HandType._
   def toList: List[Card2] = List(c1, c2, c3, c4, c5)
   def handType: HandType = 
     val jacks = toList.count(_ == Card2.Jack)
     val groups = toList.filter(_ != Card2.Jack).groupBy(identity).mapValues(_.size).values.toList.sorted.reverse
     (jacks, groups) match {
-      case (0, List(5)) => HandType.FiveOfKind
-      case (0, List(4, 1)) => HandType.FourOfKind
-      case (0, List(3, 2)) => HandType.FullHouse
-      case (0, List(3, 1, 1)) => HandType.ThreeOfKind
-      case (0, List(2, 2, 1)) => HandType.TwoPair
-      case (0, List(2, 1, 1, 1)) => HandType.OnePair
-      case (0, _) => HandType.HighCard
-      case (1, List(4)) => HandType.FiveOfKind
-      case (1, List(3, 1)) => HandType.FourOfKind
-      case (1, List(2, 2)) => HandType.FullHouse
-      case (1, List(2, 1, 1)) => HandType.ThreeOfKind
-      case (1, _) => HandType.OnePair
-      case (2, List(3)) => HandType.FiveOfKind
-      case (2, List(2, 1)) => HandType.FourOfKind
-      case (2, _) => HandType.ThreeOfKind
-      case (3, List(2)) => HandType.FiveOfKind
-      case (3, _) => HandType.FourOfKind
-      case (4, _) => HandType.FiveOfKind
-      case _ => HandType.FiveOfKind
+      case (0, List(5)) => FiveOfKind
+      case (0, List(4, 1)) => FourOfKind
+      case (0, List(3, 2)) => FullHouse
+      case (0, List(3, 1, 1)) => ThreeOfKind
+      case (0, List(2, 2, 1)) => TwoPair
+      case (0, List(2, 1, 1, 1)) => OnePair
+      case (0, _) => HighCard
+      case (1, List(4)) => FiveOfKind
+      case (1, List(3, 1)) => FourOfKind
+      case (1, List(2, 2)) => FullHouse
+      case (1, List(2, 1, 1)) => ThreeOfKind
+      case (1, _) => OnePair
+      case (2, List(3)) => FiveOfKind
+      case (2, List(2, 1)) => FourOfKind
+      case (2, _) => ThreeOfKind
+      case (3, List(2)) => FiveOfKind
+      case (3, _) => FourOfKind
+      case _ => FiveOfKind
     }
 
 implicit object Hand1Ordering extends Ordering[Hand1]:
