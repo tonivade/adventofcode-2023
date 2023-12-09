@@ -32,7 +32,7 @@ implicit object HandOrdering extends Ordering[Hand]:
           if (x == 0)
             x = a.c4.ordinal compareTo b.c4.ordinal
             if (x == 0)
-              a.c4.ordinal compareTo b.c4.ordinal
+              a.c5.ordinal compareTo b.c5.ordinal
             else
               x
           else
