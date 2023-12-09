@@ -22,27 +22,13 @@ case class Hand(c1: Card, c2: Card, c3: Card, c4: Card, c5: Card):
 
 implicit object HandOrdering extends Ordering[Hand]:
   def compare(a: Hand, b: Hand): Int = 
-    var x = a.handType.ordinal compareTo b.handType.ordinal
-    if (x == 0)
-      x = a.c1.ordinal compareTo b.c1.ordinal
-      if (x == 0)
-        x = a.c2.ordinal compareTo b.c2.ordinal
-        if (x == 0)
-          x = a.c3.ordinal compareTo b.c3.ordinal
-          if (x == 0)
-            x = a.c4.ordinal compareTo b.c4.ordinal
-            if (x == 0)
-              a.c5.ordinal compareTo b.c5.ordinal
-            else
-              x
-          else
-            x
-        else
-          x
-      else
-        x
-    else
-      x
+    val x = a.handType.ordinal compareTo b.handType.ordinal
+    val cardsA = a.toList
+    val cardsB = b.toList
+    (0 until 5).map(i => (cardsA(i), cardsB(i))).foldLeft(x) {
+      case (0, (c1, c2)) => c1.ordinal compareTo c2.ordinal
+      case (x, _) => x
+    }
 
 // https://adventofcode.com/2023/day/7
 object Day7:
