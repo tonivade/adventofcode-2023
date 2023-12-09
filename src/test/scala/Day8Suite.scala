@@ -15,7 +15,15 @@ class Day8Suite extends munit.FunSuite:
                 |ZZZ = (ZZZ, ZZZ)""".stripMargin
 
   test("Day8 part1") {
-    assertEquals(part1(input), 1)
+    assertEquals(part1(input), 2)
+  }
+
+  test("Day8 part1 continue") {
+    assertEquals(part1("""LLR
+                         |
+                         |AAA = (BBB, BBB)
+                         |BBB = (AAA, ZZZ)
+                         |ZZZ = (ZZZ, ZZZ)""".stripMargin), 6)
   }
 
   test("Day8 part2") {
