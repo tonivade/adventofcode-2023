@@ -8,10 +8,10 @@ class Day6Suite extends munit.FunSuite:
                 |Distance:  9  40  200""".stripMargin
 
   test("Day6 part1") {
-    assertEquals(part1(input), 288)
+    assertEquals(part1(input), 288L)
   }
 
   test("Day6 part2") {
-    assertEquals(part2(input), 1)
+    assertEquals(part2(input), 71503L)
   }
 
