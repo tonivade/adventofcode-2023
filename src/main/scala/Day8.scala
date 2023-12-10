@@ -35,11 +35,6 @@ object Day8:
         case Nil => count
       }
 
-  def lcm(a: BigInt, b: BigInt): BigInt = 
-    val x = a * b
-    val gdc = a.gcd(b)
-    x / gdc
-
   def part1(input: String): Int = 
     val lines = input.split("\n")
     val steps = lines(0).map {
@@ -51,6 +46,11 @@ object Day8:
     }.toMap
 
     walk1(map, steps, "AAA")
+
+  def lcm(a: BigInt, b: BigInt): BigInt = 
+    val x = a * b
+    val gdc = a.gcd(b)
+    x / gdc
 
   def part2(input: String): BigInt = 
     val lines = input.split("\n")
@@ -65,9 +65,7 @@ object Day8:
     val starts = map.keys.filter(_.endsWith("A"))
 
     starts.map(s => walk2(map, steps, s))
-      .foldLeft(BigInt(1)) {
-        case (a, b) => lcm(a, b)
-      }
+      .foldLeft(BigInt(1))(lcm)
 
 @main def main: Unit =
   val input = Source.fromFile("input/day8.txt").getLines().mkString("\n")
