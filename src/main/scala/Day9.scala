@@ -18,9 +18,16 @@ object Day9:
       reduce(next, next :: state)
 
   @tailrec
-  def infer(input: List[List[Int]], next: Int = 0): Int =
+  def inferNext(input: List[List[Int]], next: Int = 0): Int =
     input match {
-      case head :: tail => infer(tail, head.last + next)
+      case head :: tail => inferNext(tail, head.last + next)
+      case Nil => next
+    }
+
+  @tailrec
+  def inferBack(input: List[List[Int]], next: Int = 0): Int =
+    input match {
+      case head :: tail => inferBack(tail, head.head - next)
       case Nil => next
     }
 
@@ -28,10 +35,15 @@ object Day9:
     input.split("\n")
       .map(line => regex.findAllIn(line).map(_.toInt).toList)
       .map(l => reduce(l) :+ l)
-      .map(l => infer(l))
+      .map(l => inferNext(l))
       .sum
 
-  def part2(input: String): Int = ???
+  def part2(input: String): Int = 
+    input.split("\n")
+      .map(line => regex.findAllIn(line).map(_.toInt).toList)
+      .map(l => reduce(l) :+ l)
+      .map(l => inferBack(l))
+      .sum
 
 @main def main: Unit =
   val input = Source.fromFile("input/day9.txt").getLines().mkString("\n")
