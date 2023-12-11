@@ -7,22 +7,23 @@ enum Direction:
   case North, South, East, West
 
 case class Position(x: Int, y: Int):
+  import Direction._
   def movements: Map[Direction, Position] =
     Map(
-      Direction.East -> Position(x + 1, y),
-      Direction.West -> Position(x - 1, y),
-      Direction.South -> Position(x, y + 1),
-      Direction.North -> Position(x, y - 1)
+      East -> Position(x + 1, y),
+      West -> Position(x - 1, y),
+      South -> Position(x, y + 1),
+      North -> Position(x, y - 1)
     )
 
 enum Pipe:
   case NorthToSouth,  // |
     EastToWest,       // -
-    NorthToEast,      // L 
+    NorthToEast,      // L
     NorthToWest,      // J
     SouthToEast,      // F
     SouthToWest,      // 7
-    Ground,           // . 
+    Ground,           // .
     Start             // S
 
 case class Matrix(map: Map[Position, Pipe]):
@@ -73,7 +74,7 @@ case class Matrix(map: Map[Position, Pipe]):
 
       case South => (map(a), map(b)) match {
         // | <
-        // | 
+        // |
         case (NorthToSouth, NorthToSouth) => true
         // | <
         // L
@@ -83,7 +84,7 @@ case class Matrix(map: Map[Position, Pipe]):
         case (NorthToSouth, NorthToWest) => true
 
         // F <
-        // | 
+        // |
         case (SouthToEast, NorthToSouth) => true
         // F <
         // L
@@ -93,7 +94,7 @@ case class Matrix(map: Map[Position, Pipe]):
         case (SouthToEast, NorthToWest) => true
 
         // 7 <
-        // | 
+        // |
         case (SouthToWest, NorthToSouth) => true
         // 7 <
         // L
@@ -184,28 +185,33 @@ case class Matrix(map: Map[Position, Pipe]):
 object Day10:
 
   def toPipe(char: Char): Pipe =
+    import Pipe._
     char match {
-      case '|' => Pipe.NorthToSouth
-      case '-' => Pipe.EastToWest
-      case 'L' => Pipe.NorthToEast
-      case 'J' => Pipe.NorthToWest
-      case 'F' => Pipe.SouthToEast
-      case '7' => Pipe.SouthToWest
-      case '.' => Pipe.Ground
-      case 'S' => Pipe.Start
+      case '|' => NorthToSouth
+      case '-' => EastToWest
+      case 'L' => NorthToEast
+      case 'J' => NorthToWest
+      case 'F' => SouthToEast
+      case '7' => SouthToWest
+      case '.' => Ground
+      case 'S' => Start
     }
-  
+
   @tailrec
   def move(current: Position, matrix: Matrix, state: List[Position] = List.empty): List[Position] =
     if (current == matrix.start) current :: state
     else
       val next = current.movements.filter {
+        // filter positions outside the board
         case (_, position) => matrix.map.contains(position)
-      }.filter {
-        case (direction, position) => matrix.isConnected(current, position, direction)
       }.filterNot {
+        // dont go backwards
         case (_, position) => position == state.head
+      }.filter {
+        // get only valid moves
+        case (direction, position) => matrix.isConnected(current, position, direction)
       }
+      // it should be just one valid move or none
       next.headOption match {
         case Some(p) => move(p._2, matrix, current :: state)
         case None => Nil
@@ -225,15 +231,14 @@ object Day10:
       .filterNot(_._2.isEmpty)
       .head._2
 
-    
     val result = path.zipWithIndex.drop(1).toSet intersect path.reverse.zipWithIndex.dropRight(1).toSet
 
     result.head._2
-    
+
   def part2(input: String): Int = ???
 
 @main def main: Unit =
   val input = Source.fromFile("input/day10.txt").getLines().mkString("\n")
   println(Day10.part1(input))
-  println(Day10.part2(input))
+//  println(Day10.part2(input))
 
