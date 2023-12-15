@@ -235,10 +235,30 @@ object Day10:
 
     result.head._2
 
-  def part2(input: String): Int = ???
+  def part2(input: String): Int = 
+    val matrix = Matrix(input.split("\n")
+      .zipWithIndex.flatMap {
+        case (line, y) => line.zipWithIndex.map {
+          case (char, x) => Position(x, y) -> toPipe(char)
+        }
+      }.toMap
+    )
+
+    val path = matrix.start.movements
+      .mapValues(p => move(p, matrix, List(matrix.start)))
+      .filterNot(_._2.isEmpty)
+      .head._2
+
+    // https://en.wikipedia.org/wiki/Shoelace_formula
+    val area = path.sliding(2).map {
+      case List(a, b) => (a.x * b.y) - (a.y * b.x) 
+    }.sum.abs / 2
+
+    // https://en.wikipedia.org/wiki/Pick%27s_theorem
+    area - (path.size / 2) + 1
 
 @main def main: Unit =
   val input = Source.fromFile("input/day10.txt").getLines().mkString("\n")
   println(Day10.part1(input))
-//  println(Day10.part2(input))
+  println(Day10.part2(input))
 
